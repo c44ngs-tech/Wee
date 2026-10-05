@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>44Rai</title>
+    <!-- Menggunakan font bergaya iOS (SF Pro / System UI) -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Container Utama */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        /* Halaman Login (Sesuai Gambar 1) */
+        #login-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .lock-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 32px;
+            fill: #ffffff;
+        }
+
+        .password-form {
+            display: flex;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .password-input {
+            flex: 1;
+            border: none;
+            padding: 14px 16px;
+            font-size: 16px;
+            outline: none;
+            color: #000000;
+            background: transparent;
+        }
+
+        .submit-btn {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            padding: 0 20px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:active {
+            background-color: #333333;
+        }
+
+        .back-home {
+            color: #0a84ff;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+
+        .back-home:hover {
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            color: #ff453a;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Halaman Konten Piringan Hitam (Sesuai Gambar 2) */
+        #content-section {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .album-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        /* Piringan Hitam di Belakang Cover */
+        .vinyl {
+            position: absolute;
+            width: 290px;
+            height: 290px;
+            background: radial-gradient(circle, #111 0%, #000 70%);
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 1;
+            animation: spin 4s linear infinite;
+            /* Sedikit digeser ke kanan agar mengintip keluar seperti referensi gambar 2 */
+            right: -25px; 
+        }
+
+        /* Efek alur piringan hitam */
+        .vinyl::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border-radius: 50%;
+            background: repeating-radial-gradient(#111, #111 3px, #222 4px, #000 5px);
+            opacity: 0.8;
+        }
+
+        /* Label tengah piringan hitam */
+        .vinyl-label {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            background: #e63946;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #fff;
+        }
+
+        .vinyl-label::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Cover Album di Depan */
+        .album-cover {
+            position: relative;
+            width: 270px;
+            height: 270px;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: -10px 10px 25px rgba(0,0,0,0.6);
+            z-index: 2;
+            background-color: #222;
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Animasi Berputar Terus Menerus */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .album-info {
+            text-align: center;
+            z-index: 3;
+        }
+
+        .album-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .album-artist {
+            font-size: 15px;
+            color: #8e8e93;
+            font-weight: 400;
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            background: transparent;
+            color: #ff453a;
+            border: 1px solid #ff453a;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 69, 58, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- BAGIAN 1: FORM LOGIN (GAMBAR 1) -->
+        <div id="login-section">
+            <!-- Icon Gembok Minimalis -->
+            <svg class="lock-icon" viewBox="0 0 24 24">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            </svg>
+            
+            <form class="password-form" onsubmit="checkPassword(event)">
+                <input type="password" id="password-box" class="password-input" placeholder="••••••••••••" required>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+            
+            <div id="error-message" class="error-msg">Kata sandi salah, silakan coba lagi.</div>
+            <a href="#" class="back-home" onclick="resetForm(event)">Back to home</a>
+        </div>
+
+        <!-- BAGIAN 2: KONTEN UTAMA PIRINGAN HITAM ALBUM (GAMBAR 2) -->
+        <div id="content-section">
+            <div class="album-wrapper">
+                <!-- Piringan Hitam Berputar di Belakang -->
+                <div class="vinyl">
+                    <div class="vinyl-label"></div>
+                </div>
+                <!-- Cover Album di Depan -->
+                <div class="album-cover">
+                    <!-- Anda bisa mengganti link gambar album di bawah ini sesuai keinginan -->
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="Album Cover">
+                </div>
+            </div>
+
+            <div class="album-info">
+                <h2 class="album-title">Whole Lotta Red</h2>
+                <p class="album-artist">Playboi Carti</p>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">Keluar</button>
+        </div>
+    </div>
+
+    <script>
+        // Tentukan kata sandi web di sini (ubah '44rai' sesuai keinginan Anda)
+        const CORRECT_PASSWORD = "44rai";
+
+        function checkPassword(event) {
+            event.preventDefault();
+            const inputVal = document.getElementById("password-box").value;
+            const errorMsg = document.getElementById("error-message");
+
+            if (inputVal === CORRECT_PASSWORD) {
+                // Sembunyikan halaman login, tampilkan konten piringan hitam
+                document.getElementById("login-section").style.display = "none";
+                document.getElementById("content-section").style.display = "flex";
+                errorMsg.style.display = "none";
+            } else {
+                // Tampilkan pesan error jika salah
+                errorMsg.style.display = "block";
+                document.getElementById("password-box").value = "";
+            }
+        }
+
+        function resetForm(event) {
+            event.preventDefault();
+            document.getElementById("password-box").value = "";
+            document.getElementById("error-message").style.display = "none";
+        }
+
+        function logout() {
+            document.getElementById("content-section").style.display = "none";
+            document.getElementById("login-section").style.display = "flex";
+            document.getElementById("password-box").value = "";
+        }
+    </script>
+</body>
+</html>
